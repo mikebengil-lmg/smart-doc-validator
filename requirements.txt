@@ -1,0 +1,23 @@
+# requirements.txt
+
+fastapi~=0.115.12
+uvicorn
+pydantic~=2.11.4
+
+# LangChain + LLM support
+langchain
+langchain_aws
+langchain-community
+langchain-core~=0.3.59
+langchain_openai
+langchain_google_genai
+openai
+
+# Document parsing
+python-docx~=1.1.2
+
+# Required for file uploads via Form (test endpoint)
+python-multipart
+python-dotenv~=1.1.0
+langchain-aws~=0.2.23
+langchain-openai~=0.3.16
