@@ -74,19 +74,22 @@ async def run_document_analysis(request):
     response.usage_metadata['total_cost'] = llm_cost(request.model, response.usage_metadata)
     response.usage_metadata['model'] = request.model or default_model
 
-    # Parse the JSON string inside `response.content`
+    import re
+
+    raw = response.content
+
+    # Remove Markdown-style code block if it exists (Gemini)
+    cleaned = re.sub(r"^```json\s*|\s*```$", "", raw.strip())
+
     try:
-        parsed_content = json.loads(response.content)
+        parsed_content = json.loads(cleaned)
     except Exception as ex:
         print(f"[WARNING] Failed to parse LLM response for file: {ex}")
         parsed_content = {
             "summary": "ignore this file, unable to classify properly",
             "fraud_risk": "high",
-            "fraud_notes": "LLM could not parse a valid document from the input image. Possibly not a document or image is too distorted."
+            "fraud_notes": "LLM returned invalid JSON — possibly malformed or not a document."
         }
-
-    # Optionally, attach metadata if needed
-    # parsed_content["_usage"] = response.usage_metadata
 
     return parsed_content
 

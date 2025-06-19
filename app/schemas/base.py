@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
-default_model = "bedrock:anthropic.claude-3-5-sonnet-20241022-v2:0"
+#default_model = "bedrock:anthropic.claude-3-5-sonnet-20241022-v2:0"
+default_model = "gemini-pro"  # Default to GPT-4, can be overridden
 
 class FileExtractorRequest(BaseModel):
     file_base64: str

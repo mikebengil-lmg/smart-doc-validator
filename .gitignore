@@ -1,2 +1,9 @@
 .env
 .idea
+
+# Ignore Python bytecode and cache
+__pycache__/
+*.py[cod]
+
+# macOS system files
+.DS_Store

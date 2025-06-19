@@ -12,8 +12,13 @@ MAX_TOKENS = 2000
 def parse_model_input(model_string):
     if ":" in model_string:
         provider, model = model_string.split(":", 1)
+    elif model_string.startswith("gemini"):
+        provider, model = "gemini", model_string
+    elif model_string.startswith("anthropic") or model_string.startswith("claude"):
+        provider, model = "bedrock", model_string
     else:
         provider, model = "openai", model_string
+
     return provider, model
 
 def init_chat_model(model_provider, model, max_tokens):
@@ -34,8 +39,8 @@ def init_chat_model(model_provider, model, max_tokens):
     elif model_provider == "gemini":
         from langchain_google_genai import ChatGoogleGenerativeAI
         return ChatGoogleGenerativeAI(
-            model=GEMINI_MODEL_NAME,
-            google_api_key=GEMINI_API_KEY,
+            model=GEMINI_API_KEY,
+            google_api_key=GEMINI_MODEL_NAME,
             temperature=0,
             max_tokens=max_tokens
         )
